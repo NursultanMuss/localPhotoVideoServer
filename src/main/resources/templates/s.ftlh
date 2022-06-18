@@ -24,16 +24,11 @@
 <div >
     <tbody>
     <#list images as image>
-        <img src="/img/${image.filename}"/>
+        <img src="/img${image.filename}"/>
     <#else>
         No message
     </#list>
     </tbody>
 </div>
-
-<!--<img src="ftp:///home/nurs/Pictures/Wallpapers/Earth.jpg">-->
-<!--<tbody>-->
-<!--    <tr th:each="image: ${images}"><img th:src="@{${image}}"/> </tr>-->
-<!--</tbody>-->
 </body>
 </html>

@@ -1,11 +1,13 @@
 package com.example.local.services;
 
 
+import com.example.local.entity.Image;
+
 import java.io.IOException;
 import java.util.List;
 
 public interface SearchingService {
-    List<String> searchPhotos() throws IOException;
+    List<Image> searchPhotos() throws IOException;
 
 
 }

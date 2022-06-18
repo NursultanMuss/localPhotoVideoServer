@@ -14,10 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -34,15 +34,15 @@ public class MainController {
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
         model.addAttribute("name", name);
-        return "main";
+        return "s";
     }
 
     @GetMapping("/main")
     public String findPhotoAndVideo(Model model) throws IOException {
-//        List<String> imagesList = service.searchPhotos();
-        Iterable<Image> images = repository.findAll();
+        List<Image> imagesList = service.searchPhotos();
+//        Iterable<Image> images = repository.findAll();
 
-        model.addAttribute("images",  images);
+        model.addAttribute("images",  imagesList);
         return "s";
     }
 
