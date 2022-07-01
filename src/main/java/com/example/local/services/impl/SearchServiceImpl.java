@@ -5,27 +5,33 @@ import com.example.local.services.SearchingService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 public class SearchServiceImpl implements SearchingService {
+    public static final String WINDOWS = "Windows";
     private String[] extensions = {"jpg"};
     @Value("${upload.path}")
     String uploadPath;
+    @Value("${windows.user.path}")
+    String windowsPath;
     @Override
     public List<Image> searchPhotos() throws IOException {
         String osName = System.getProperty("os.name");
-        List<Image> files = findFiles(Paths.get(uploadPath), extensions);
+        String homePath = "";
+        if(osName.startsWith(WINDOWS)){
+            homePath = windowsPath;
+        }else{
+            homePath = uploadPath;
+        }
+        List<Image> files = findFiles(Paths.get(homePath), extensions);
 
         return files;
     }

@@ -1,4 +1,5 @@
 upload.path: /home/nurs
+windows.user.path: D:\\
 spring:
   freemarker:
     expose-request-attributes: true
