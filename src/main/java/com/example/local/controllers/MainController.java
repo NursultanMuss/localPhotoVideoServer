@@ -44,7 +44,7 @@ public class MainController {
     @GetMapping(value = "/main",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String findPhotoAndVideo(
-            @RequestParam(required = false, defaultValue = "") Map<String, Object> filter,
+            @RequestParam(required = false, defaultValue = "") String filter,
             Model model,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable)
             throws IOException, ExecutionException, InterruptedException {

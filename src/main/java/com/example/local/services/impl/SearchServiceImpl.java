@@ -1,18 +1,11 @@
 package com.example.local.services.impl;
 
-import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import com.drew.imaging.ImageMetadataReader;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.Tag;
 import com.example.local.entity.Image;
 import com.example.local.repository.ImageRepository;
 import com.example.local.services.SearchingService;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -28,12 +21,6 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -75,8 +62,9 @@ public class SearchServiceImpl implements SearchingService {
     }
 
     @Override
-    public Page<Image> mainPhotos(Map<String, Object> filter, Pageable pageable){
+    public Page<Image> mainPhotos(String filter, Pageable pageable){
         NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
+                .withQuery(QueryBuilders.matchQuery(("filename"), filter))
                 .withPageable(PageRequest.of(0, 20))
                 .build();
         SearchHits<Image> searchHits = elasticsearchOperations.search(nativeSearchQuery, Image.class, IndexCoordinates.of("image_list"));
